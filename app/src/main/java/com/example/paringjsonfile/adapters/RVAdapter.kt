@@ -1,11 +1,15 @@
 package com.example.paringjsonfile.adapters
 
+import android.content.Intent
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.paringjsonfile.FavoriteActivity
 import com.example.paringjsonfile.Image
 import com.example.paringjsonfile.MainActivity
+import com.example.paringjsonfile.R
 import com.example.paringjsonfile.databinding.ItemRowBinding
 
 
@@ -26,13 +30,17 @@ class RVAdapter (val activity: MainActivity, val imges: ArrayList<Image>): Recyc
         val img = imges[position]
 
         holder.binding.apply {
+            tvImageText.text = img.author
+            Glide.with(activity).load(img.url).into(ivThumbnail)
+            llItemRow.setOnClickListener { activity.openImg(img.url) }
 
-            Glide.with(activity).load(img.url).into(imageView)
+            ibFavImage.setOnClickListener {
+                activity.addToFavorite(img.author,img.url)
+            }
 
-           //activity.addToFavorite(img.author,img.url)
-
+            }
         }
-    }
+
 
     override fun getItemCount() = imges.size
 }

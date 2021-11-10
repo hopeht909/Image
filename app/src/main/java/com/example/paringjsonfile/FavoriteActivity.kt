@@ -68,7 +68,7 @@ class FavoriteActivity : AppCompatActivity() {
                     _, _ ->
                 run{
                     deleteNote(id, "","")
-                    Toast.makeText(this, "Note deleted", Toast.LENGTH_LONG).show()
+                    Toast.makeText(this, "image got deleted", Toast.LENGTH_LONG).show()
                 }
             })
             .setNegativeButton("Cancel", DialogInterface.OnClickListener {

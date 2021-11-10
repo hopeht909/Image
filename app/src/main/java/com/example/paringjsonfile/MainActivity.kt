@@ -7,11 +7,14 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.paringjsonfile.adapters.RVAdapter
 import com.example.paringjsonfile.database.DatabaseImage
 import com.example.paringjsonfile.database.DoaImage
@@ -30,12 +33,15 @@ class MainActivity : AppCompatActivity() {
     private val repository  by lazy { RepositoryImage(imageDao) }
 
     lateinit var rcv: RecyclerView
+    private lateinit var ivMain: ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         rcv = findViewById(R.id.rcv)
+        ivMain = findViewById(R.id.ivMain)
+        ivMain.setOnClickListener { closeImg() }
 
         val jsonf = getJsonData(this, "data.json")
         val jsonArray = JSONArray(jsonf)
@@ -73,7 +79,6 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this,FavoriteActivity::class.java)
                 startActivity(intent)
             }
-
         }
         return super.onOptionsItemSelected(item)
     }
@@ -106,4 +111,16 @@ class MainActivity : AppCompatActivity() {
                 repository.addImage(EntityImage(0, author,url))
             }
         }
+    fun openImg(link: String){
+        Glide.with(this).load(link).into(ivMain)
+        ivMain.isVisible = true
+        rcv.isVisible = false
+
+    }
+
+    private fun closeImg(){
+        ivMain.isVisible = false
+        rcv.isVisible = true
+
+    }
     }
